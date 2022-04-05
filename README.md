@@ -9,12 +9,12 @@ import "github.com/glitternetwork/glitter-sdk-go"
 ```
 
 ```go
-    // create sdk
-    client := glittersdk.New()
+	// create sdk
+	client := glittersdk.New()
 
-    db:=client.DB()
+	db:=client.DB()
 
-    // put document
+	// put document
 	doc := glittersdk.Document(`{
 		"doi": "10.1003/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
 		"title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history",
@@ -22,10 +22,10 @@ import "github.com/glitternetwork/glitter-sdk-go"
 		}`)
 
 	txID, err := db.PutDoc("demo", doc)
-    checkerr(err)
+	checkerr(err)
 	fmt.Printf("tx id=%s\n", txID)
 
-    // search document
+	// search document
 	cond := glittersdk.
 		NewSearchCond().
 		Schema("demo").
@@ -34,8 +34,8 @@ import "github.com/glitternetwork/glitter-sdk-go"
 		Page(1).
 		Limit(10)
 	sr, err := db.Search(cond)
-    checkerr(err)
-    fmt.Printf("%+v\n", sr)
+	checkerr(err)
+	fmt.Printf("%+v\n", sr)
 ```
 
 ## SDK
