@@ -5,37 +5,28 @@
 ## Quick Start
 
 ```go
-import "github.com/glitternetwork/glitter-sdk-go"
+	import "github.com/glitternetwork/glitter-sdk-go"
 ```
 
 ```go
-	// create sdk
+	// get a client
 	client := glittersdk.New()
-
-	db:=client.DB()
-
+	// list schema
+	schema := client.DB().GetSchema("sample")
 	// put document
-	doc := glittersdk.Document(`{
-		"doi": "10.1003/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
-		"title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history",
-		"ipfs_cid": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte"
-		}`)
-
-	txID, err := db.PutDoc("demo", doc)
-	checkerr(err)
-	fmt.Printf("tx id=%s\n", txID)
-
+	txID,err := client.DB().PutDoc("sample",glittersdk.Document(`{
+		"url"  : "https://glitterprotocol.io/",
+		"title": "A Decentralized Content Indexing Network"
+	}`))
+	// get doc by primary key
+	docs, err := db.GetDocs("sample", []string{"https://glitterprotocol.io/"})
 	// search document
-	cond := glittersdk.
-		NewSearchCond().
-		Schema("demo").
-		Select("doi", "title").
-		Query("British Steel").
-		Page(1).
-		Limit(10)
-	sr, err := db.Search(cond)
-	checkerr(err)
-	fmt.Printf("%+v\n", sr)
+	searchRes, err := db.Search(
+		glittersdk.NewSearchCond().
+		Schema("sample").
+		Select("title").
+		Query("decentralized")
+	)
 ```
 
 ## SDK

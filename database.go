@@ -40,12 +40,25 @@ type Schema struct {
 	ESMapping string
 }
 
+// GetSchema get schema by name
+func (d *Database) GetSchema(name string) (string, error) {
+	var s json.RawMessage
+	req := map[string]string{
+		"schema_name": name,
+	}
+	err := d.c.get(urlGetSchema, req, &s)
+	if err != nil {
+		return "", err
+	}
+	return string(s), nil
+}
+
 // ListSchema list all glitter schemas
 func (d *Database) ListSchema() (string, error) {
 	var s json.RawMessage
 	err := d.c.get(urlListSchema, nil, &s)
 	if err != nil {
-		return string(s), err
+		return "", err
 	}
 	return string(s), nil
 }
