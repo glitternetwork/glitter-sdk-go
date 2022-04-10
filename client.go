@@ -18,7 +18,7 @@ const (
 	urlGetDocs          = "/v1/get_docs"
 	urlSearch           = "/v1/search"
 	urlPutDoc           = "/v1/put_doc"
-	urlGetSchema        = "/v1/show_schema"
+	urlGetSchema        = "/v1/get_schema"
 	urlListSchema       = "/v1/list_schema"
 	urlCreateSchema     = "/v1/create_schema"
 	urlUpdateValidator  = "/v1/admin/update_validator"
