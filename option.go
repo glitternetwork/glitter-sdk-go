@@ -12,6 +12,7 @@ type ClientOption interface {
 type clientOption struct {
 	addrs       []string
 	accessToken string
+	privateKey  string
 	timeout     time.Duration
 }
 
@@ -51,5 +52,11 @@ func WithAccessToken(token string) ClientOption {
 func WithTimeout(timeout time.Duration) ClientOption {
 	return clientOptionFn(func(o *clientOption) {
 		o.timeout = timeout
+	})
+}
+
+func WithPrivateKey(key string) ClientOption {
+	return clientOptionFn(func(o *clientOption) {
+		o.privateKey = key
 	})
 }

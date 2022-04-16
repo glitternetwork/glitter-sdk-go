@@ -1,9 +1,13 @@
 package glittersdk
 
 import (
-	"errors"
+	"encoding/base64"
+	"encoding/json"
 	"strconv"
+	"time"
 
+	"github.com/pkg/errors"
+	"github.com/tendermint/tendermint/crypto/ed25519"
 	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 )
 
@@ -12,25 +16,58 @@ type Cluster struct {
 }
 
 // UpdateValidator update validator to glitter cluster
-func (c *Cluster) UpdateValidator(pubKey string, power int) error {
-	if power <= 0 {
+func (c *Cluster) UpdateValidator(validatorPubKey string, validatorPubKeyPower int) error {
+	if validatorPubKeyPower <= 0 {
 		return errors.New("power must > 0")
 	}
-	return c.updateValidator(pubKey, power)
+	return c.updateValidator(validatorPubKey, validatorPubKeyPower)
 }
 
 // RemoveValidator remove validator from glitter cluster
-func (c *Cluster) RemoveValidator(pubKey string) error {
-	return c.updateValidator(pubKey, 0)
+func (c *Cluster) RemoveValidator(validatorPubKey string) error {
+	return c.updateValidator(validatorPubKey, 0)
 }
 
 type updateValidatorReq struct {
-	PubKey string `json:"pub_key"`
-	Power  int    `json:"power"`
+	ValidatorPubKey string `json:"validator_pub_key" `
+	ValidatorPower  int64  `json:"validator_power"`
+
+	SequenceID int64  `json:"seq"`
+	Signature  []byte `json:"signature"`
+}
+
+type validatorSignContent struct {
+	ValidatorPubKey string `json:"validator_pub_key"`
+	ValidatorPower  int64  `json:"validator_power"`
+	SequenceID      int64  `json:"seq"`
+}
+
+func (s *updateValidatorReq) getBytesForSign() []byte {
+	m := validatorSignContent{
+		ValidatorPubKey: s.ValidatorPubKey,
+		ValidatorPower:  s.ValidatorPower,
+		SequenceID:      s.SequenceID,
+	}
+	b, _ := json.Marshal(m)
+	return b
 }
 
 func (c *Cluster) updateValidator(pubKey string, power int) error {
-	req := &updateValidatorReq{PubKey: pubKey, Power: power}
+	req := &updateValidatorReq{
+		ValidatorPubKey: pubKey,
+		ValidatorPower:  int64(power),
+		SequenceID:      time.Now().UnixMilli(),
+	}
+	k, err := base64.StdEncoding.DecodeString(c.c.option.privateKey)
+	if err != nil {
+		return errors.Errorf("invalid private key: %v", err)
+	}
+	key := ed25519.PrivKey(k)
+	sig, err := key.Sign(req.getBytesForSign())
+	if err != nil {
+		return errors.Errorf("failed to sign: %v", err)
+	}
+	req.Signature = sig
 	var resp []byte
 	return c.c.post(urlUpdateValidator, req, &resp)
 }
