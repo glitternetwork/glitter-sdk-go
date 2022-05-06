@@ -9,18 +9,18 @@
 ```
 
 ```go
-	// get a client
+	// Create a client.
 	client := glittersdk.New()
-	// list schema
+	// Get detailed informatino of the schema.
 	schema := client.DB().GetSchema("sample")
-	// put document
+	// Put a document into Glitter.
 	txID,err := client.DB().PutDoc("sample",glittersdk.Document(`{
 		"url"  : "https://glitterprotocol.io/",
 		"title": "A Decentralized Content Indexing Network"
 	}`))
-	// get doc by primary key
+	// Get the document by primary key in the schema.
 	docs, err := db.GetDocs("sample", []string{"https://glitterprotocol.io/"})
-	// search document
+	// Search the document which matches the words in the query.
 	searchRes, err := db.Search(
 		glittersdk.NewSearchCond().
 		Schema("sample").

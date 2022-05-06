@@ -16,6 +16,7 @@ type Cluster struct {
 }
 
 // UpdateValidator update validator to glitter cluster
+// any suggestion clu for cluster?
 func (c *Cluster) UpdateValidator(validatorPubKey string, validatorPubKeyPower int) error {
 	if validatorPubKeyPower <= 0 {
 		return errors.New("power must > 0")

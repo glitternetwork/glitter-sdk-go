@@ -12,17 +12,20 @@ func Test_Client_DB(t *testing.T) {
 	c := glittersdk.New()
 	db := c.DB()
 
-	// list schema
+	// List the schemas.
 	schemas, err := db.ListSchema()
 	assert(err)
+	// compare the result, instead of log.
 	t.Log(schemas)
 
 	// get schema
 	schema, err := db.GetSchema("demo")
 	assert(err)
+	// compare the result, instead of log.
 	t.Log(schema)
 
 	// put doc
+	// change the example to AddressBook {user_id, user_name, email_address}.
 	doc := glittersdk.Document(`{
 		"doi": "10.1003/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
 		"title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history",
@@ -36,9 +39,10 @@ func Test_Client_DB(t *testing.T) {
 	// get docs
 	r0, err := db.GetDocs("demo", []string{"10.1003/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c"})
 	assert(err)
+	// ditto.
 	t.Logf("%+v\n", r0)
 
-	// simple search
+	// Search with the given query.
 	cond1 := glittersdk.
 		NewSearchCond().
 		Schema("demo").
@@ -48,9 +52,10 @@ func Test_Client_DB(t *testing.T) {
 		Limit(10)
 	r1, err := db.Search(cond1)
 	assert(err)
+	// ditto.
 	t.Logf("%+v\n", r1)
 
-	// complex search
+	// Search with filters.
 	cond2 := glittersdk.
 		NewSearchCond().
 		Schema("libgen").
