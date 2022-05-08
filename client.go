@@ -53,9 +53,9 @@ func New(opts ...ClientOption) *Client {
 		Timeout: opt.timeout,
 	}
 	c := &Client{option: opt, client: client}
-	c.db = &Database{c: c}
-	c.cluster = &Cluster{c: c}
-	c.chain = &Chain{c: c}
+	c.db = &Database{client: c}
+	c.cluster = &Cluster{client: c}
+	c.chain = &Chain{client: c}
 	return c
 }
 

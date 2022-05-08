@@ -34,6 +34,7 @@ func defaultClientOption() *clientOption {
 	}
 }
 
+// WithAddrs create client with access token (your public key)
 func WithAddrs(address ...string) ClientOption {
 	return clientOptionFn(func(o *clientOption) {
 		for i := 0; i < len(address); i++ {
@@ -43,18 +44,22 @@ func WithAddrs(address ...string) ClientOption {
 	})
 }
 
+// WithAccessToken create client with access token (your public key)
 func WithAccessToken(token string) ClientOption {
 	return clientOptionFn(func(o *clientOption) {
 		o.accessToken = token
 	})
 }
 
+// WithTimeout create client with request timeout
 func WithTimeout(timeout time.Duration) ClientOption {
 	return clientOptionFn(func(o *clientOption) {
 		o.timeout = timeout
 	})
 }
 
+// WithPrivateKey create client with your private key
+// some APIs that need to be signed need to use it
 func WithPrivateKey(key string) ClientOption {
 	return clientOptionFn(func(o *clientOption) {
 		o.privateKey = key

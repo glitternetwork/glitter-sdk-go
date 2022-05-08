@@ -24,15 +24,17 @@ import "github.com/glitternetwork/glitter-sdk-go"
 - [type ClientOption](<#type-clientoption>)
   - [func WithAccessToken(token string) ClientOption](<#func-withaccesstoken>)
   - [func WithAddrs(address ...string) ClientOption](<#func-withaddrs>)
+  - [func WithPrivateKey(key string) ClientOption](<#func-withprivatekey>)
   - [func WithTimeout(timeout time.Duration) ClientOption](<#func-withtimeout>)
 - [type Cluster](<#type-cluster>)
   - [func (c *Cluster) ListValidators(height *int64, page, perPage *int) (*ctypes.ResultValidators, error)](<#func-cluster-listvalidators>)
-  - [func (c *Cluster) RemoveValidator(pubKey string) error](<#func-cluster-removevalidator>)
-  - [func (c *Cluster) UpdateValidator(pubKey string, power int) error](<#func-cluster-updatevalidator>)
+  - [func (c *Cluster) RemoveValidator(validatorPubKey string) error](<#func-cluster-removevalidator>)
+  - [func (c *Cluster) UpdateValidator(validatorPubKey string, validatorPubKeyPower int) error](<#func-cluster-updatevalidator>)
 - [type CreateSchemaBody](<#type-createschemabody>)
 - [type Database](<#type-database>)
   - [func (d *Database) CreateSchema(schemaName, schema string) (string, error)](<#func-database-createschema>)
   - [func (d *Database) GetDocs(scheaName string, docIDs []string) (*GetDocsResult, error)](<#func-database-getdocs>)
+  - [func (d *Database) GetSchema(name string) (string, error)](<#func-database-getschema>)
   - [func (d *Database) ListSchema() (string, error)](<#func-database-listschema>)
   - [func (d *Database) PutDoc(scheaName string, document interface{}) (string, error)](<#func-database-putdoc>)
   - [func (d *Database) Search(cond *SearchCond) (*SearchResult, error)](<#func-database-search>)
@@ -92,7 +94,13 @@ BlockChainInfo get blockchain info
 func (c *Chain) BlockSearch(query string, page, perPage *int, orderBy string) (*ctypes.ResultBlockSearch, error)
 ```
 
-BlockSearch search for blocks by BeginBlock and EndBlock events\.
+BlockSearch search for blocks by BeginBlock and EndBlock events\. 
+
+query: query condition example: \`"block\.height\<10"\` more detail about query https://docs.tendermint.com/v0.35/rpc/#/Websocket/subscribe
+
+page and perPage:  limit on the number of returned result
+
+orderBy: order in which blocks are sorted \("asc" or "desc"\)\, by height\. if empty\, default sorting will be still applied\.
 
 ### func \(\*Chain\) Health
 
@@ -124,7 +132,11 @@ Status of the node
 func (c *Chain) TxSearch(query string, prove bool, page, perPage *int, orderBy string) (*ctypes.ResultTxSearch, error)
 ```
 
-TxSearch Search for transactions
+TxSearch searches transactions with the given query\.
+
+prove: indicating whether the return value is included in the block's transaction proof
+
+page and perPage:  limit on the number of returned results
 
 ## type Client
 
@@ -182,17 +194,31 @@ type ClientOption interface {
 func WithAccessToken(token string) ClientOption
 ```
 
+WithAccessToken create client with access token \(your public key\)
+
 ### func WithAddrs
 
 ```go
 func WithAddrs(address ...string) ClientOption
 ```
 
+WithAddrs create client with access token \(your public key\)
+
+### func WithPrivateKey
+
+```go
+func WithPrivateKey(key string) ClientOption
+```
+
+WithPrivateKey create client with your private key some APIs that need to be signed need to use it
+
 ### func WithTimeout
 
 ```go
 func WithTimeout(timeout time.Duration) ClientOption
 ```
+
+WithTimeout create client with request timeout
 
 ## type Cluster
 
@@ -213,7 +239,7 @@ ListValidators list validators info
 ### func \(\*Cluster\) RemoveValidator
 
 ```go
-func (c *Cluster) RemoveValidator(pubKey string) error
+func (c *Cluster) RemoveValidator(validatorPubKey string) error
 ```
 
 RemoveValidator remove validator from glitter cluster
@@ -221,7 +247,7 @@ RemoveValidator remove validator from glitter cluster
 ### func \(\*Cluster\) UpdateValidator
 
 ```go
-func (c *Cluster) UpdateValidator(pubKey string, power int) error
+func (c *Cluster) UpdateValidator(validatorPubKey string, validatorPubKeyPower int) error
 ```
 
 UpdateValidator update validator to glitter cluster
@@ -258,6 +284,14 @@ func (d *Database) GetDocs(scheaName string, docIDs []string) (*GetDocsResult, e
 ```
 
 GetDocs get documents by id list
+
+### func \(\*Database\) GetSchema
+
+```go
+func (d *Database) GetSchema(name string) (string, error)
+```
+
+GetSchema get schema by name
 
 ### func \(\*Database\) ListSchema
 
