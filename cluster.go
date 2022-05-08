@@ -12,11 +12,10 @@ import (
 )
 
 type Cluster struct {
-	c *Client
+	client *Client
 }
 
 // UpdateValidator update validator to glitter cluster
-// any suggestion clu for cluster?
 func (c *Cluster) UpdateValidator(validatorPubKey string, validatorPubKeyPower int) error {
 	if validatorPubKeyPower <= 0 {
 		return errors.New("power must > 0")
@@ -59,7 +58,7 @@ func (c *Cluster) updateValidator(pubKey string, power int) error {
 		ValidatorPower:  int64(power),
 		SequenceID:      time.Now().UnixMilli(),
 	}
-	k, err := base64.StdEncoding.DecodeString(c.c.option.privateKey)
+	k, err := base64.StdEncoding.DecodeString(c.client.option.privateKey)
 	if err != nil {
 		return errors.Errorf("invalid private key: %v", err)
 	}
@@ -70,7 +69,7 @@ func (c *Cluster) updateValidator(pubKey string, power int) error {
 	}
 	req.Signature = sig
 	var resp []byte
-	return c.c.post(urlUpdateValidator, req, &resp)
+	return c.client.post(urlUpdateValidator, req, &resp)
 }
 
 // ListValidators list validators info
@@ -86,7 +85,7 @@ func (c *Cluster) ListValidators(height *int64, page, perPage *int) (*ctypes.Res
 	if height != nil {
 		req["height"] = strconv.FormatInt(*height, 10)
 	}
-	err := c.c.get(urlChainValidator, req, r)
+	err := c.client.get(urlChainValidator, req, r)
 	if err != nil {
 		return nil, err
 	}

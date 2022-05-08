@@ -44,4 +44,4 @@ See [doc.md](doc.md)
 
 ## More useage
 
-See [client_test.go](client_test.go)
+See [example_test.go](example_test.go)

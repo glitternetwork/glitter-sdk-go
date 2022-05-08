@@ -7,7 +7,7 @@ import (
 )
 
 type Database struct {
-	c *Client
+	client *Client
 }
 
 type Result struct {
@@ -28,7 +28,7 @@ func (d *Database) CreateSchema(schemaName, schema string) (string, error) {
 		Data:       []byte(schema),
 	}
 	resp := new(response)
-	err := d.c.post(urlCreateSchema, body, resp)
+	err := d.client.post(urlCreateSchema, body, resp)
 	if err != nil {
 		return "", err
 	}
@@ -46,7 +46,7 @@ func (d *Database) GetSchema(name string) (string, error) {
 	req := map[string]string{
 		"schema_name": name,
 	}
-	err := d.c.get(urlGetSchema, req, &s)
+	err := d.client.get(urlGetSchema, req, &s)
 	if err != nil {
 		return "", err
 	}
@@ -56,7 +56,7 @@ func (d *Database) GetSchema(name string) (string, error) {
 // ListSchema list all glitter schemas
 func (d *Database) ListSchema() (string, error) {
 	var s json.RawMessage
-	err := d.c.get(urlListSchema, nil, &s)
+	err := d.client.get(urlListSchema, nil, &s)
 	if err != nil {
 		return "", err
 	}
@@ -76,7 +76,7 @@ func (d *Database) PutDoc(scheaName string, document interface{}) (string, error
 		DocData:    document,
 	}
 	resp := new(response)
-	err := d.c.post(urlPutDoc, req, resp)
+	err := d.client.post(urlPutDoc, req, resp)
 	if err != nil {
 		return "", err
 	}
@@ -132,7 +132,7 @@ func (d *Database) GetDocs(scheaName string, docIDs []string) (*GetDocsResult, e
 		DocIDs:     docIDs,
 	}
 	resp := &GetDocsResult{}
-	err := d.c.post(urlGetDocs, req, resp)
+	err := d.client.post(urlGetDocs, req, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func (d *Database) Search(cond *SearchCond) (*SearchResult, error) {
 	}
 
 	resp := &SearchResult{}
-	err := d.c.post(urlSearch, req, resp)
+	err := d.client.post(urlSearch, req, resp)
 	if err != nil {
 		return nil, err
 	}
