@@ -96,11 +96,11 @@ func (c *Chain) BlockSearch(query string, page, perPage *int, orderBy string) (*
 
 BlockSearch search for blocks by BeginBlock and EndBlock events\. 
 
-query: query condition example: \`"block\.height\<10"\` more detail about query https://docs.tendermint.com/v0.35/rpc/#/Websocket/subscribe
+query: query condition example: \`"block\.height\<10"\`. For more details about queries, plese refer to https://docs.tendermint.com/v0.35/rpc/#/Websocket/subscribe
 
 page and perPage:  limit on the number of returned result
 
-orderBy: order in which blocks are sorted \("asc" or "desc"\)\, by height\. if empty\, default sorting will be still applied\.
+orderBy: specify how to sort the blocks by height \("asc" or "desc"\) by height\. If empty\, default sort will be applied\.
 
 ### func \(\*Chain\) Health
 

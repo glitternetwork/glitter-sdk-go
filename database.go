@@ -68,8 +68,8 @@ type putDocRequest struct {
 	DocData    interface{} `json:"doc_data"`
 }
 
-// PutDoc put a document to glitter
-// returns transcation id
+// PutDoc put a document to Glitter
+// Returns transcation id
 func (d *Database) PutDoc(scheaName string, document interface{}) (string, error) {
 	req := &putDocRequest{
 		SchemaName: scheaName,
@@ -125,7 +125,7 @@ type GetDocsResult struct {
 	Documents map[string]Document `json:"hits"`
 }
 
-// GetDocs get documents by id list
+// GetDocs get documents by ID list
 func (d *Database) GetDocs(scheaName string, docIDs []string) (*GetDocsResult, error) {
 	req := &getDocsReq{
 		SchemaName: scheaName,
@@ -151,7 +151,7 @@ type complexSearchReq struct {
 	Page    int    `json:"page"`
 }
 
-// Search search from glitter database with given condition
+// Search search from Glitter database with given condition
 func (d *Database) Search(cond *SearchCond) (*SearchResult, error) {
 	req := &complexSearchReq{
 		Index:      cond.schema,

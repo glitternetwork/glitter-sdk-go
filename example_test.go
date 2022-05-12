@@ -24,7 +24,6 @@ func Test_Client_DB(t *testing.T) {
 	t.Log(schema)
 
 	// put doc
-	// change the example to AddressBook {user_id, user_name, email_address}.
 	doc := glittersdk.Document(`{
 		"doi": "10.1003/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
 		"title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history",

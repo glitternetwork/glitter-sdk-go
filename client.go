@@ -32,7 +32,7 @@ const (
 	urlChainHealth      = "/v1/chain/health"
 )
 
-// Client is a HTTP API client to the glitter service.
+// Client is a HTTP API client to the Glitter service
 type Client struct {
 	option  *clientOption
 	db      *Database
@@ -43,7 +43,7 @@ type Client struct {
 	addrIndex uint32
 }
 
-// New create a new glitter client
+// New create a new Glitter client
 func New(opts ...ClientOption) *Client {
 	opt := defaultClientOption()
 	for _, o := range opts {

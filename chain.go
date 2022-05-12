@@ -7,7 +7,7 @@ import (
 )
 
 type Chain struct {
-	client *Client // let's use cl for client and ch for chain, be consistent within the sdk.
+	client *Client
 }
 
 // Status of the node
@@ -49,14 +49,14 @@ func (c *Chain) TxSearch(query string, prove bool, page, perPage *int, orderBy s
 
 // BlockSearch search for blocks by BeginBlock and EndBlock events.
 //
-// query: query condition example: `"block.height<10"`
+// query: query condition, example: `"block.height<10"`
 //
-// more detail about query https://docs.tendermint.com/v0.35/rpc/#/Websocket/subscribe
+// For more details about queries, please refer to https://docs.tendermint.com/v0.35/rpc/#/Websocket/subscribe
 //
 // page and perPage:  limit on the number of returned results
 //
-// orderBy: order in which blocks are sorted ("asc" or "desc"), by height.
-// if empty, default sorting will be still applied.
+// orderBy: specify how to sort the blocks by height ("asc" or "desc").
+// If empty, default sort will be applied.
 func (c *Chain) BlockSearch(query string,
 	page, perPage *int,
 	orderBy string,
@@ -96,7 +96,7 @@ func (c *Chain) Block(height *int64) (*ctypes.ResultBlock, error) {
 }
 
 // Health get node health.
-// returns empty result (200 OK) on success, no response - in case of an error.
+// Returns empty result (200 OK) if success, and no response - in case of an error.
 func (c *Chain) Health() (*ctypes.ResultHealth, error) {
 	r := new(ctypes.ResultHealth)
 	req := map[string]string{}
