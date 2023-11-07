@@ -60,3 +60,12 @@ func PrivKeyGen(bz []byte) (types.PrivKey, error) {
 
 	return algo.Generate()(bz), nil
 }
+
+// PrivKeyGen
+func PrivKeyGenByMnemonic(mnemonic string, hdPath string) (rst types.PrivKey, err error) {
+	privateKey, err := DerivePrivKeyBz(mnemonic, hdPath)
+	if err != nil {
+		return
+	}
+	return PrivKeyGen(privateKey)
+}
