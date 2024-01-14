@@ -40,11 +40,6 @@ func TestDateRangeQuery(t *testing.T) {
 	fmt.Printf("m1=%s\n", m1)
 }
 
-func TestHighlight(t *testing.T) {
-	m1, err := HighlightHint([]string{"author", "title"})
-	fmt.Printf("m1=%s, err=%+v\n", m1, err)
-}
-
 func TestCandyQueryString(t *testing.T) {
 	db := "library"
 	table := "ebook_v4"

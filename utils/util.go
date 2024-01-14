@@ -3,7 +3,8 @@ package utils
 import (
 	"encoding/base64"
 	"fmt"
-	glittertypes "github.com/glitternetwork/glitter.proto/golang/glitter_proto/index/types"
+	glittercommon "github.com/glitternetwork/chain-dep/glitter_proto/common"
+
 	"strconv"
 	"strings"
 
@@ -12,32 +13,32 @@ import (
 	ethermint "github.com/evmos/ethermint/types"
 )
 
-func toGlitterArgument(columnValue interface{}) (*glittertypes.Argument, error) {
-	arg := glittertypes.Argument{
+func toGlitterArgument(columnValue interface{}) (*glittercommon.Argument, error) {
+	arg := glittercommon.Argument{
 		Type:  0,
 		Value: "",
 	}
 	switch v := columnValue.(type) {
 	case int, int8, int16, int32, int64:
-		arg.Type = glittertypes.Argument_INT
+		arg.Type = glittercommon.Argument_INT
 		arg.Value = fmt.Sprintf("%d", v)
 	case uint, uint8, uint16, uint32, uint64:
-		arg.Type = glittertypes.Argument_UINT
+		arg.Type = glittercommon.Argument_UINT
 		arg.Value = fmt.Sprintf("%d", v)
 	case float32:
-		arg.Type = glittertypes.Argument_FLOAT
+		arg.Type = glittercommon.Argument_FLOAT
 		arg.Value = strconv.FormatFloat(float64(v), 'g', -1, 32)
 	case float64:
-		arg.Type = glittertypes.Argument_FLOAT
+		arg.Type = glittercommon.Argument_FLOAT
 		arg.Value = strconv.FormatFloat(v, 'g', -1, 64)
 	case string:
-		arg.Type = glittertypes.Argument_STRING
+		arg.Type = glittercommon.Argument_STRING
 		arg.Value = v
 	case bool:
-		arg.Type = glittertypes.Argument_BOOL
+		arg.Type = glittercommon.Argument_BOOL
 		arg.Value = strconv.FormatBool(v)
 	case []byte:
-		arg.Type = glittertypes.Argument_BYTES
+		arg.Type = glittercommon.Argument_BYTES
 		arg.Value = base64.StdEncoding.EncodeToString(v)
 	default:
 		return nil, fmt.Errorf("unsupported value type: %T", v)
@@ -45,8 +46,8 @@ func toGlitterArgument(columnValue interface{}) (*glittertypes.Argument, error) 
 	return &arg, nil
 }
 
-func toGlitterArguments(rowIndex int, columnValues []interface{}) ([]*glittertypes.Argument, error) {
-	args := make([]*glittertypes.Argument, 0, len(columnValues))
+func toGlitterArguments(rowIndex int, columnValues []interface{}) ([]*glittercommon.Argument, error) {
+	args := make([]*glittercommon.Argument, 0, len(columnValues))
 	for _, v := range columnValues {
 		a, err := toGlitterArgument(v)
 		if err != nil {
@@ -57,8 +58,8 @@ func toGlitterArguments(rowIndex int, columnValues []interface{}) ([]*glittertyp
 	return args, nil
 }
 
-func BuildBatchInsertStatement(table string, columns []string, rowValues [][]interface{}) (string, []*glittertypes.Argument, error) {
-	args := make([]*glittertypes.Argument, 0, len(columns)*len(rowValues))
+func BuildBatchInsertStatement(table string, columns []string, rowValues [][]interface{}) (string, []*glittercommon.Argument, error) {
+	args := make([]*glittercommon.Argument, 0, len(columns)*len(rowValues))
 	sqlBuilder := strings.Builder{}
 	write := func(s string, args ...interface{}) {
 		sqlBuilder.WriteString(fmt.Sprintf(s, args...))
@@ -85,7 +86,7 @@ func BuildBatchInsertStatement(table string, columns []string, rowValues [][]int
 	return sqlBuilder.String(), args, nil
 }
 
-func BuildInsertStatement(table string, columnToValues map[string]interface{}) (string, []*glittertypes.Argument, error) {
+func BuildInsertStatement(table string, columnToValues map[string]interface{}) (string, []*glittercommon.Argument, error) {
 	columns := make([]string, 0, len(columnToValues))
 	values := make([]interface{}, 0, len(columnToValues))
 	for col, val := range columnToValues {
@@ -96,10 +97,10 @@ func BuildInsertStatement(table string, columnToValues map[string]interface{}) (
 }
 
 // BuildUpdateStatement where connected by and
-func BuildUpdateStatement(table string, columns map[string]interface{}, whereEqual map[string]interface{}) (string, []*glittertypes.Argument, error) {
+func BuildUpdateStatement(table string, columns map[string]interface{}, whereEqual map[string]interface{}) (string, []*glittercommon.Argument, error) {
 	var setKey []string
 	var whereKey []string
-	args := make([]*glittertypes.Argument, 0, len(columns)+len(whereEqual))
+	args := make([]*glittercommon.Argument, 0, len(columns)+len(whereEqual))
 	for k, v := range columns {
 		setKey = append(setKey, fmt.Sprintf("%s=?", k))
 		a, err := toGlitterArgument(v)
@@ -125,9 +126,9 @@ func BuildUpdateStatement(table string, columns map[string]interface{}, whereEqu
 const AccountAddressPrefix = "glitter"
 
 // BuildDeleteStatement where connected by and
-func BuildDeleteStatement(table string, whereEqual map[string]interface{}, orderBy string, asc bool, limit int) (string, []*glittertypes.Argument, error) {
+func BuildDeleteStatement(table string, whereEqual map[string]interface{}, orderBy string, asc bool, limit int) (string, []*glittercommon.Argument, error) {
 	var whereKey []string
-	args := make([]*glittertypes.Argument, 0, len(whereEqual))
+	args := make([]*glittercommon.Argument, 0, len(whereEqual))
 	for k, v := range whereEqual {
 		whereKey = append(whereKey, fmt.Sprintf("%s=?", k))
 		a, err := toGlitterArgument(v)

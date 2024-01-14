@@ -10,11 +10,11 @@ import (
 	"strconv"
 	"time"
 
-	glittertypes "github.com/glitternetwork/glitter.proto/golang/glitter_proto/index/types"
+	glittercommon "github.com/glitternetwork/chain-dep/glitter_proto/common"
 	"github.com/jmoiron/sqlx"
 )
 
-func ScanRows(rs *glittertypes.ResultSet, dest interface{}) error {
+func ScanRows(rs *glittercommon.ResultSet, dest interface{}) error {
 	col := make([]string, 0, len(rs.ColumnDefs))
 	for _, cd := range rs.ColumnDefs {
 		col = append(col, cd.ColumnName)
@@ -29,7 +29,7 @@ func ScanRows(rs *glittertypes.ResultSet, dest interface{}) error {
 }
 
 type Rows struct {
-	rs   *glittertypes.ResultSet
+	rs   *glittercommon.ResultSet
 	cols []string
 	idx  int
 	err  error
@@ -68,7 +68,7 @@ func (rows *Rows) Scan(dest ...interface{}) error {
 			iv  interface{} = sv
 			err error
 		)
-		if i < len(rows.rs.ColumnDefs) && rows.rs.ColumnDefs[i].ColumnValueType == glittertypes.ColumnValueType_BytesColumn {
+		if i < len(rows.rs.ColumnDefs) && rows.rs.ColumnDefs[i].ColumnValueType == glittercommon.ColumnValueType_BytesColumn {
 			iv, err = base64.StdEncoding.DecodeString(sv)
 			if err != nil {
 				return fmt.Errorf(`sql: Scan error on column index %d, name %q: %w`, i, rows.cols[i], err)

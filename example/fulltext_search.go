@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	glittercommon "github.com/glitternetwork/chain-dep/glitter_proto/common"
 
 	"github.com/glitternetwork/glitter-sdk-go/example/testclient"
 	"github.com/glitternetwork/glitter-sdk-go/example/testdata"
 	"github.com/glitternetwork/glitter-sdk-go/utils"
-	glittertypes "github.com/glitternetwork/glitter.proto/golang/glitter_proto/index/types"
 )
 
 func main() {
@@ -47,8 +47,8 @@ func main() {
 	hint := utils.HighlightHint([]string{"author", "title"})
 
 	sql := fmt.Sprintf("select %s _score,* from %s.%s where  query_string(?) limit 0,10", hint, testdata.TestDBName, testdata.TestTableNameBook)
-	arg := &glittertypes.Argument{
-		Type:  glittertypes.Argument_STRING,
+	arg := &glittercommon.Argument{
+		Type:  glittercommon.Argument_STRING,
 		Value: qb.GetQueryString(),
 	}
 	resp, err := cli.Query(ctx, sql, arg)
@@ -61,8 +61,8 @@ func main() {
 	hint = utils.HighlightHint([]string{"title"})
 
 	sql = fmt.Sprintf("select %s _score,* from %s.%s where  query_string(?) limit 0,10", hint, testdata.TestDBName, testdata.TestTableNameBook)
-	arg = &glittertypes.Argument{
-		Type:  glittertypes.Argument_STRING,
+	arg = &glittercommon.Argument{
+		Type:  glittercommon.Argument_STRING,
 		Value: qb.GetQueryString(),
 	}
 	resp, err = cli.Query(ctx, sql, arg)

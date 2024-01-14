@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	glittertypes "github.com/glitternetwork/glitter.proto/golang/glitter_proto/index/types"
+	glittercommon "github.com/glitternetwork/chain-dep/glitter_proto/common"
 )
 
 type QueryString struct {
@@ -36,22 +36,22 @@ func (q *QueryString) GetQueryString() string {
 	return strings.Join(q.Querys, " ")
 }
 
-func (q *QueryString) Row(sql string, args ...interface{}) (string, []*glittertypes.Argument, error) {
+func (q *QueryString) Row(sql string, args ...interface{}) (string, []*glittercommon.Argument, error) {
 	glitterArgs, err := toGlitterArguments(0, args)
 	return sql, glitterArgs, err
 }
 
-func (q *QueryString) Build() (string, []*glittertypes.Argument, error) {
+func (q *QueryString) Build() (string, []*glittercommon.Argument, error) {
 	glitterArg, err := toGlitterArgument(q.GetQueryString())
 	if err != nil {
 		return "", nil, err
 	}
 	if q.Limit > 0 {
 		_sql := fmt.Sprintf("select %s %s from %s.%s where query_string(%s) limit %d, %d", q.Highlight, q.Fields, q.DB, q.Table, "?", q.Offset, q.Limit)
-		return _sql, []*glittertypes.Argument{glitterArg}, nil
+		return _sql, []*glittercommon.Argument{glitterArg}, nil
 	} else {
 		_sql := fmt.Sprintf("select %s %s from %s.%s where query_string(%s)", q.Highlight, q.Fields, q.DB, q.Table, "?")
-		return _sql, []*glittertypes.Argument{glitterArg}, nil
+		return _sql, []*glittercommon.Argument{glitterArg}, nil
 	}
 }
 

@@ -9,10 +9,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	glittertypes "github.com/glitternetwork/chain-dep/glitter_proto/blockved/glitterchain/index/types"
+	glittercommon "github.com/glitternetwork/chain-dep/glitter_proto/common"
 	"github.com/glitternetwork/glitter-sdk-go/key"
 	"github.com/glitternetwork/glitter-sdk-go/msg"
 	"github.com/glitternetwork/glitter-sdk-go/tx"
-	glittertypes "github.com/glitternetwork/glitter.proto/golang/glitter_proto/index/types"
 )
 
 // LCDClient outer interface for building & signing & broadcasting tx
@@ -147,7 +148,7 @@ func (lcd *LCDClient) GetAddress() msg.AccAddress {
 // sql: SQL statement to execute
 // args: Parameters of the SQL statement, default to None
 // Returns: Transaction information of the SQL execution
-func (lcd *LCDClient) SQLExecWithOptions(ctx context.Context, options CreateTxOptions, sql string, args []*glittertypes.Argument) (*sdk.TxResponse, error) {
+func (lcd *LCDClient) SQLExecWithOptions(ctx context.Context, options CreateTxOptions, sql string, args []*glittercommon.Argument) (*sdk.TxResponse, error) {
 	_msg := glittertypes.NewSQLExecRequest(lcd.GetAddress(), sql, args)
 	options.Msgs = []msg.Msg{_msg}
 	return lcd.SignAndBroadcastTX(ctx, options)
@@ -158,7 +159,7 @@ func (lcd *LCDClient) SQLExecWithOptions(ctx context.Context, options CreateTxOp
 // sql: SQL statement to execute
 // args: Parameters of the SQL statement, default to None
 // Returns: Transaction information of the SQL execution
-func (lcd *LCDClient) SQLExec(ctx context.Context, sql string, args []*glittertypes.Argument) (*sdk.TxResponse, error) {
+func (lcd *LCDClient) SQLExec(ctx context.Context, sql string, args []*glittercommon.Argument) (*sdk.TxResponse, error) {
 	return lcd.SQLExecWithOptions(ctx, CreateTxOptions{SignMode: tx.SignModeDirect}, sql, args)
 }
 

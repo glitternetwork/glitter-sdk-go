@@ -3,12 +3,12 @@ package sqlutil
 import (
 	"testing"
 
-	glittertypes "github.com/glitternetwork/glitter.proto/golang/glitter_proto/index/types"
+	glittercommon "github.com/glitternetwork/chain-dep/glitter_proto/common"
 )
 
 func TestScanRows(t *testing.T) {
 	type args struct {
-		rs   *glittertypes.ResultSet
+		rs   *glittercommon.ResultSet
 		dest interface{}
 	}
 	type DestType struct {
@@ -26,15 +26,15 @@ func TestScanRows(t *testing.T) {
 		{
 			name: "",
 			args: args{
-				rs: &glittertypes.ResultSet{
+				rs: &glittercommon.ResultSet{
 					Id: "",
-					ColumnDefs: []*glittertypes.ColumnDef{
+					ColumnDefs: []*glittercommon.ColumnDef{
 						{ColumnName: "a", ColumnType: "int"},
 						{ColumnName: "b", ColumnType: "string"},
 						{ColumnName: "c", ColumnType: "bool"},
 						{ColumnName: "d", ColumnType: "float"},
 					},
-					Rows: []*glittertypes.RowData{
+					Rows: []*glittercommon.RowData{
 						{
 							Columns: []string{"1", "abcde", "true", "2.33"},
 						},

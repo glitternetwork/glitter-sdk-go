@@ -1,14 +1,16 @@
 package key
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_CreateMnemonic(t *testing.T) {
-	_, err := CreateMnemonic()
+	str, err := CreateMnemonic()
 	assert.NoError(t, err)
+	fmt.Println(str)
 }
 
 func Test_DrivePrivKey(t *testing.T) {

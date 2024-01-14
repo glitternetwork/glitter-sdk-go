@@ -5,17 +5,20 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	glittertypes "github.com/glitternetwork/chain-dep/glitter_proto/blockved/glitterchain/index/types"
+	glittercommon "github.com/glitternetwork/chain-dep/glitter_proto/common"
+
 	"io/ioutil"
 	"net/url"
 	"reflect"
 	"strconv"
 
-	glittertypes "github.com/glitternetwork/glitter.proto/golang/glitter_proto/index/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	sdktx "github.com/cosmos/cosmos-sdk/types/tx"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+
 	"github.com/glitternetwork/glitter-sdk-go/msg"
 	"github.com/glitternetwork/glitter-sdk-go/tx"
 	"github.com/glitternetwork/glitter-sdk-go/utils/sqlutil"
@@ -123,7 +126,7 @@ func (lcd *LCDClient) Simulate(ctx context.Context, txbuilder tx.Builder, option
 //
 // Returns:
 // A list of rows where each row is a dict mapping column name to value
-func (lcd *LCDClient) QueryScan(ctx context.Context, target interface{}, sql string, args ...*glittertypes.Argument) error {
+func (lcd *LCDClient) QueryScan(ctx context.Context, target interface{}, sql string, args ...*glittercommon.Argument) error {
 	rt := reflect.TypeOf(target)
 	if rt.Kind() != reflect.Ptr {
 		return fmt.Errorf("result must be ptr slice")
@@ -152,7 +155,7 @@ func (lcd *LCDClient) QueryScan(ctx context.Context, target interface{}, sql str
 //
 // Returns:
 // A list of rows where each row is a dict mapping column name to value
-func (lcd *LCDClient) Query(ctx context.Context, sql string, args ...*glittertypes.Argument) (res *glittertypes.SQLQueryResponse, err error) {
+func (lcd *LCDClient) Query(ctx context.Context, sql string, args ...*glittercommon.Argument) (res *glittertypes.SQLQueryResponse, err error) {
 	req := glittertypes.SQLQueryRequest{
 		Sql:       sql,
 		Arguments: args,
@@ -266,7 +269,7 @@ func (lcd *LCDClient) ListDatabases(ctx context.Context, creator string) (res *g
 	}
 
 	if len(creator) > 0 {
-		filtered := make([]*glittertypes.DatabaseInfo, 0, len(response.Databases))
+		filtered := make([]*glittercommon.DatabaseInfo, 0, len(response.Databases))
 		for _, e := range response.Databases {
 			if e.Creator == creator {
 				filtered = append(filtered, e)
