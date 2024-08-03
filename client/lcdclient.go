@@ -9,8 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	glittertypes "github.com/glitternetwork/chain-dep/glitter_proto/blockved/glitterchain/index/types"
-	glittercommon "github.com/glitternetwork/chain-dep/glitter_proto/common"
+	chaindepindextype "github.com/glitternetwork/chain-dep/glitter_proto/blockved/glitterchain/index/types"
 	"github.com/glitternetwork/glitter-sdk-go/key"
 	"github.com/glitternetwork/glitter-sdk-go/msg"
 	"github.com/glitternetwork/glitter-sdk-go/tx"
@@ -129,7 +128,6 @@ func (lcd *LCDClient) CreateAndSignTx(ctx context.Context, options CreateTxOptio
 	return &txbuilder, nil
 }
 
-// SignAndBroadcastTX sign and broadcast transaction
 func (lcd *LCDClient) SignAndBroadcastTX(ctx context.Context, options CreateTxOptions) (*sdk.TxResponse, error) {
 	builder, err := lcd.CreateAndSignTx(ctx, options)
 	if err != nil {
@@ -138,88 +136,12 @@ func (lcd *LCDClient) SignAndBroadcastTX(ctx context.Context, options CreateTxOp
 	return lcd.Broadcast(ctx, builder)
 }
 
-// GetAddress get account address
 func (lcd *LCDClient) GetAddress() msg.AccAddress {
 	return msg.AccAddress(lcd.PrivKey.PubKey().Address())
 }
 
-// SQLExecWithOptions Execute a SQL with options
-// Args:
-// sql: SQL statement to execute
-// args: Parameters of the SQL statement, default to None
-// Returns: Transaction information of the SQL execution
-func (lcd *LCDClient) SQLExecWithOptions(ctx context.Context, options CreateTxOptions, sql string, args []*glittercommon.Argument) (*sdk.TxResponse, error) {
-	_msg := glittertypes.NewSQLExecRequest(lcd.GetAddress(), sql, args)
+func (lcd *LCDClient) CreateDataset(ctx context.Context, options CreateTxOptions, datasetName string, workStatus chaindepindextype.ServiceStatus, hosts string, manageAddresses string, meta string, description string, duration int64) (*sdk.TxResponse, error) {
+	_msg := chaindepindextype.NewCreateDatasetRequest(lcd.GetAddress(), datasetName, workStatus, hosts, manageAddresses, meta, description, duration)
 	options.Msgs = []msg.Msg{_msg}
 	return lcd.SignAndBroadcastTX(ctx, options)
-}
-
-// SQLExec Execute a SQL
-// Args:
-// sql: SQL statement to execute
-// args: Parameters of the SQL statement, default to None
-// Returns: Transaction information of the SQL execution
-func (lcd *LCDClient) SQLExec(ctx context.Context, sql string, args []*glittercommon.Argument) (*sdk.TxResponse, error) {
-	return lcd.SQLExecWithOptions(ctx, CreateTxOptions{SignMode: tx.SignModeDirect}, sql, args)
-}
-
-const (
-	GrantWriter = "writer"
-	GrantReader = "reader"
-	GrantOwner  = "admin"
-)
-
-func (lcd *LCDClient) sqlGrantWithOptions(ctx context.Context, options CreateTxOptions, onDatabase string, onTable string, toUID string, role string) (*sdk.TxResponse, error) {
-	_msg := glittertypes.NewSQLGrantRequest(lcd.GetAddress(), onDatabase, onTable, toUID, role)
-	options.Msgs = []msg.Msg{_msg}
-	return lcd.SignAndBroadcastTX(ctx, options)
-}
-
-// SQLGrant Grant database or table access permission
-// Args:
-//   - toUID: Address to grant access to
-//   - role: SQL role name
-//   - onDatabase: SQL database name
-//   - onTable: SQL table name, optional (Grant authorization to the table if specified, otherwise grant authorization to the database)
-//
-// Returns:
-// Result of broadcasting grant transaction
-func (lcd *LCDClient) SQLGrant(ctx context.Context, onDatabase string, onTable string, toUID string, role string) (*sdk.TxResponse, error) {
-	return lcd.sqlGrantWithOptions(ctx, CreateTxOptions{}, onDatabase, onTable, toUID, role)
-}
-
-// GrantWriter (insert/update/delete) permissions on the specified table to the specified user
-// Args:
-//   - toUID: Address to grant access
-//   - onDatabase: SQL database name
-//   - onTable: SQL table name, optional
-//
-// Returns:
-// Result of grant transaction
-func (lcd *LCDClient) GrantWriter(ctx context.Context, onDatabase string, onTable string, toUID string) (*sdk.TxResponse, error) {
-	return lcd.SQLGrant(ctx, onDatabase, onTable, toUID, GrantWriter)
-}
-
-// GrantReader (select) permissions on the specified table to the specified user
-// Args:
-//   - toUID: Address to grant access
-//   - onDatabase: SQL database name
-//   - onTable: SQL table name, optional
-//
-// Returns:
-// Result of grant transaction
-func (lcd *LCDClient) GrantReader(ctx context.Context, onDatabase string, onTable string, toUID string) (*sdk.TxResponse, error) {
-	return lcd.SQLGrant(ctx, onDatabase, onTable, toUID, GrantReader)
-}
-
-// GrantAdmin (admin) permissions on the specified table to the specified user
-// Args:
-//   - toUID: Address to grant access
-//   - onDatabase: SQL database name
-//   - onTable: SQL table name, optional
-//
-// Returns:
-// Result of grant transaction
-func (lcd *LCDClient) GrantAdmin(ctx context.Context, onDatabase string, onTable string, toUID string) (*sdk.TxResponse, error) {
-	return lcd.SQLGrant(ctx, onDatabase, onTable, toUID, GrantOwner)
 }
