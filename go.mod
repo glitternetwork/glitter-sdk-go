@@ -5,10 +5,10 @@ go 1.18
 require (
 	github.com/cosmos/cosmos-sdk v0.45.10
 	github.com/cosmos/go-bip39 v1.0.0
-	github.com/cosmos/ibc-go/v3 v3.2.0
+	github.com/cosmos/ibc-go/v3 v3.3.1
 	github.com/ethereum/go-ethereum v1.10.19
 	github.com/evmos/ethermint v0.19.3
-	github.com/glitternetwork/chain-dep v0.0.2
+	github.com/glitternetwork/chain-dep v0.0.3-0.20240808024159-38dc328d35b5
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.0
@@ -38,8 +38,6 @@ require (
 	github.com/rjeczalik/notify v0.9.1 // indirect
 	github.com/shirou/gopsutil v3.21.4-0.20210419000835-c7a38de76ee5+incompatible // indirect
 	github.com/status-im/keycard-go v0.0.0-20200402102358-957c09536969 // indirect
-	github.com/tklauser/go-sysconf v0.3.9 // indirect
-	github.com/tklauser/numcpus v0.3.0 // indirect
 	golang.org/x/sync v0.0.0-20220819030929-7fc1605a5dde // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
@@ -57,7 +55,6 @@ require (
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1 // indirect
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce // indirect
-	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/confio/ics23/go v0.7.0 // indirect
@@ -115,7 +112,6 @@ require (
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/regen-network/cosmos-proto v0.3.1 // indirect
-	github.com/rogpeppe/go-internal v1.6.2 // indirect
 	github.com/sasha-s/go-deadlock v0.3.1 // indirect
 	github.com/spf13/afero v1.8.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
@@ -147,14 +143,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-
 replace (
+	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
-	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
-)
-
-
-replace (
- 	github.com/glitternetwork/chain-dep v0.0.2 => /Users/didi/my/go20workplace/chain-dep
 )
