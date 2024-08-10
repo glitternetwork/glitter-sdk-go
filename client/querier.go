@@ -3,17 +3,20 @@ package client
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	sdktx "github.com/cosmos/cosmos-sdk/types/tx"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"io/ioutil"
-
+	"github.com/glitternetwork/chain-dep/core"
+	chaindepindextype "github.com/glitternetwork/chain-dep/glitter_proto/glitterchain/index/types"
 	"github.com/glitternetwork/glitter-sdk-go/msg"
 	"github.com/glitternetwork/glitter-sdk-go/tx"
+	"github.com/glitternetwork/glitter-sdk-go/utils"
 	"golang.org/x/net/context/ctxhttp"
+	"io/ioutil"
 )
 
 // LoadAccount simulates gas and fee for a transaction
@@ -94,4 +97,65 @@ func (lcd *LCDClient) Simulate(ctx context.Context, txbuilder tx.Builder, option
 	}
 
 	return &response, nil
+}
+
+type ResultSet struct {
+	Row map[string]*RowValue `json:"row,omitempty"`
+}
+
+type RowValue struct {
+	Value           string `json:"value,omitempty"`
+	ColumnValueType string `json:"column_value_type,omitempty"`
+}
+
+type Response struct {
+	Result          []*ResultSet `json:"result"`
+	Code            int32        `json:"code"`
+	EngineTookTimes float32      ` json:"engine_took_times,omitempty"`
+	FullTookTimes   float32      ` json:"full_took_times,omitempty"`
+	Msg             string       ` json:"msg,omitempty"`
+	TraceID         string       ` json:"trace_id,omitempty"`
+}
+
+type EngineResponse struct {
+	Result    []*ResultSet `json:"result"`
+	TookTimes float32      ` json:"took_times,omitempty"`
+}
+
+type Argument struct {
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+func (lcd *LCDClient) Query(ctx context.Context, datasetName string, sql string, argument *[]Argument) (resp string, err error) {
+	var engineHost = ""
+	var engineParam = make(map[string]interface{})
+	url := lcd.URL + "/glitterchain/index/datasets?pagination.offset=0&pagination.limit=1000"
+	data, err := utils.CurlGet(url)
+	if err != nil {
+		return "", err
+	}
+	c := core.MakeEncodingConfig(core.ModuleBasics)
+	r := &chaindepindextype.QueryDatesetsResponse{}
+	err = c.Marshaler.UnmarshalJSON([]byte(data), r)
+	if err != nil {
+		return "", err
+	}
+
+	host := ""
+	for _, v := range r.Datasets {
+		if v.Hosts == datasetName {
+			host = v.Hosts
+		}
+	}
+
+	if host == "" {
+		return "", errors.New("obsent host")
+	}
+
+	engineHost = host + "/api/v1/simple_sql_query"
+	engineParam["sql"] = sql
+	engineParam["arguments"] = argument
+	resp, err = utils.CurlPost(engineHost, engineParam)
+	return resp, err
 }
