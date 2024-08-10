@@ -16,18 +16,6 @@ import (
 	"golang.org/x/net/context/ctxhttp"
 )
 
-// QueryAccountResData response
-type QueryAccountResData struct {
-	Address       msg.AccAddress `json:"address"`
-	AccountNumber msg.Int        `json:"account_number"`
-	Sequence      msg.Int        `json:"sequence"`
-}
-
-// QueryAccountRes response
-type QueryAccountRes struct {
-	Account QueryAccountResData `json:"account"`
-}
-
 // LoadAccount simulates gas and fee for a transaction
 func (lcd *LCDClient) LoadAccount(ctx context.Context, address msg.AccAddress) (res authtypes.AccountI, err error) {
 	resp, err := ctxhttp.Get(ctx, lcd.c, lcd.URL+fmt.Sprintf("/cosmos/auth/v1beta1/accounts/%s", address))
