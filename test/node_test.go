@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-func Test_GetAccount(t *testing.T) {
+func Test_QueryDatesets(t *testing.T) {
 	cfg := nodeconfig.Config{
 		Type: nodeconfig.TypeRemote,
 		Details: remote.NewDetails(
