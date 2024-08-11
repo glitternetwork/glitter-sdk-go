@@ -127,7 +127,7 @@ type Argument struct {
 	Value string `json:"value"`
 }
 
-func (lcd *LCDClient) Query(ctx context.Context, datasetName string, sql string, argument *[]Argument) (resp string, err error) {
+func (lcd *LCDClient) QuerySql(ctx context.Context, datasetName string, sql string, argument *[]Argument) (resp string, err error) {
 	var engineHost = ""
 	var engineParam = make(map[string]interface{})
 	url := lcd.URL + "/glitterchain/index/datasets?pagination.offset=0&pagination.limit=1000"
