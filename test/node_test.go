@@ -7,6 +7,7 @@ import (
 	"github.com/glitternetwork/glitter-sdk-go/client"
 	nodeconfig "github.com/glitternetwork/glitter-sdk-go/client/node/config"
 	"github.com/glitternetwork/glitter-sdk-go/client/node/remote"
+	"github.com/tendermint/tendermint/libs/json"
 	"testing"
 )
 
@@ -31,4 +32,9 @@ func Test_QueryDatesets(t *testing.T) {
 	}
 
 	t.Log(resp)
+
+	datasets := resp.Datasets
+	b, e := json.Marshal(datasets)
+	t.Log(e)
+	t.Log(string(b))
 }
