@@ -16,16 +16,16 @@ import (
 const AccountAddressPrefix = "glitter"
 
 func GetEvmAddrFromGlitterAddr(glitterAddr string) (string, error) {
-	accountPubKeyPrefix := AccountAddressPrefix + "pub"
-	validatorAddressPrefix := AccountAddressPrefix + "valoper"
-	validatorPubKeyPrefix := AccountAddressPrefix + "valoperpub"
-	consNodeAddressPrefix := AccountAddressPrefix + "valcons"
-	consNodePubKeyPrefix := AccountAddressPrefix + "valconspub"
-	config := sdk.GetConfig()
-	config.SetBech32PrefixForAccount(AccountAddressPrefix, accountPubKeyPrefix)
-	config.SetBech32PrefixForValidator(validatorAddressPrefix, validatorPubKeyPrefix)
-	config.SetBech32PrefixForConsensusNode(consNodeAddressPrefix, consNodePubKeyPrefix)
-	SetBip44CoinType(config)
+	//accountPubKeyPrefix := AccountAddressPrefix + "pub"
+	//validatorAddressPrefix := AccountAddressPrefix + "valoper"
+	//validatorPubKeyPrefix := AccountAddressPrefix + "valoperpub"
+	//consNodeAddressPrefix := AccountAddressPrefix + "valcons"
+	//consNodePubKeyPrefix := AccountAddressPrefix + "valconspub"
+	//config := sdk.GetConfig()
+	//config.SetBech32PrefixForAccount(AccountAddressPrefix, accountPubKeyPrefix)
+	//config.SetBech32PrefixForValidator(validatorAddressPrefix, validatorPubKeyPrefix)
+	//config.SetBech32PrefixForConsensusNode(consNodeAddressPrefix, consNodePubKeyPrefix)
+	//SetBip44CoinType(config)
 	accAddr, err := sdk.AccAddressFromBech32(glitterAddr)
 	if err != nil {
 		return "", err
@@ -35,16 +35,16 @@ func GetEvmAddrFromGlitterAddr(glitterAddr string) (string, error) {
 }
 
 func GetGlitterAddrFromEvmAddr(evmAddr string) (string, error) {
-	accountPubKeyPrefix := AccountAddressPrefix + "pub"
-	validatorAddressPrefix := AccountAddressPrefix + "valoper"
-	validatorPubKeyPrefix := AccountAddressPrefix + "valoperpub"
-	consNodeAddressPrefix := AccountAddressPrefix + "valcons"
-	consNodePubKeyPrefix := AccountAddressPrefix + "valconspub"
-	config := sdk.GetConfig()
-	config.SetBech32PrefixForAccount(AccountAddressPrefix, accountPubKeyPrefix)
-	config.SetBech32PrefixForValidator(validatorAddressPrefix, validatorPubKeyPrefix)
-	config.SetBech32PrefixForConsensusNode(consNodeAddressPrefix, consNodePubKeyPrefix)
-	SetBip44CoinType(config)
+	//accountPubKeyPrefix := AccountAddressPrefix + "pub"
+	//validatorAddressPrefix := AccountAddressPrefix + "valoper"
+	//validatorPubKeyPrefix := AccountAddressPrefix + "valoperpub"
+	//consNodeAddressPrefix := AccountAddressPrefix + "valcons"
+	//consNodePubKeyPrefix := AccountAddressPrefix + "valconspub"
+	//config := sdk.GetConfig()
+	//config.SetBech32PrefixForAccount(AccountAddressPrefix, accountPubKeyPrefix)
+	//config.SetBech32PrefixForValidator(validatorAddressPrefix, validatorPubKeyPrefix)
+	//config.SetBech32PrefixForConsensusNode(consNodeAddressPrefix, consNodePubKeyPrefix)
+	//SetBip44CoinType(config)
 
 	glitterAddrStrFromEth := sdk.AccAddress(common.HexToAddress(evmAddr).Bytes()).String()
 	accAddr, err := sdk.AccAddressFromBech32(glitterAddrStrFromEth)
