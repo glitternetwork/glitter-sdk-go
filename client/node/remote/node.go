@@ -404,3 +404,8 @@ func (cp *Node) QueryReleasingCPDTs(ctx context.Context, request *chaindepconsum
 	c := chaindepconsumertype.NewQueryClient(cp.grpcConnection)
 	return c.QueryReleasingCPDTs(ctx, request)
 }
+
+func (cp *Node) Balance(ctx context.Context, request *types6.QueryBalanceRequest) (*types6.QueryBalanceResponse, error) {
+	c := types6.NewQueryClient(cp.grpcConnection)
+	return c.Balance(ctx, request)
+}

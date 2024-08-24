@@ -5,6 +5,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	types3 "github.com/cosmos/cosmos-sdk/x/auth/types"
+	types6 "github.com/cosmos/cosmos-sdk/x/bank/types"
 	types2 "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	types4 "github.com/cosmos/cosmos-sdk/x/staking/types"
 	chaindepconsumertype "github.com/glitternetwork/chain-dep/glitter_proto/glitterchain/consumer/types"
@@ -110,4 +111,6 @@ type Node interface {
 	QueryReleasingCPDT(ctx context.Context, request *chaindepconsumertype.QueryReleasingCPDTRequest) (*chaindepconsumertype.QueryReleasingCPDTResponse, error)
 
 	QueryReleasingCPDTs(ctx context.Context, request *chaindepconsumertype.QueryReleasingCPDTsRequest) (*chaindepconsumertype.QueryReleasingCPDTsResponse, error)
+
+	Balance(ctx context.Context, request *types6.QueryBalanceRequest) (*types6.QueryBalanceResponse, error)
 }
