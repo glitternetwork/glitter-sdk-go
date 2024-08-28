@@ -1,4 +1,4 @@
-package sqlutil2
+package utils
 
 import (
 	"database/sql"
@@ -23,23 +23,24 @@ type RowValue struct {
 }
 
 type GatewayResponse struct {
-	Result          []*ResultSet `json:"result"`
-	Code            int32        `json:"code"`
-	EngineTookTimes float32      ` json:"engine_took_times,omitempty"`
-	FullTookTimes   float32      ` json:"full_took_times,omitempty"`
-	Msg             string       ` json:"msg,omitempty"`
-	TraceID         string       ` json:"trace_id,omitempty"`
+	Result        []*ResultSet `json:"result"`
+	Code          int32        `json:"code"`
+	FullTookTimes float32      ` json:"full_took_times,omitempty"`
+	Msg           string       ` json:"msg,omitempty"`
+	TraceID       string       ` json:"trace_id,omitempty"`
 }
 
-func ScanRows(rs *GatewayResponse, dest interface{}) error {
-	col := make([]string, 0, len(rs.Result))
-
-	firstElement := rs.Result[0]
+func ScanRows(resultSet []*ResultSet, dest interface{}) error {
+	if len(resultSet) == 0 {
+		return errors.New("resultSet nil")
+	}
+	col := make([]string, 0, len(resultSet))
+	firstElement := resultSet[0]
 	for k, _ := range firstElement.Row {
 		col = append(col, k)
 	}
 	rows := Rows{
-		rs:   rs,
+		rs:   resultSet,
 		cols: col,
 		idx:  -1,
 		err:  nil,
@@ -48,7 +49,7 @@ func ScanRows(rs *GatewayResponse, dest interface{}) error {
 }
 
 type Rows struct {
-	rs   *GatewayResponse
+	rs   []*ResultSet
 	cols []string
 	idx  int
 	err  error
@@ -68,7 +69,7 @@ func (rows *Rows) Err() error {
 
 func (rows *Rows) Next() bool {
 	rows.idx++
-	if rows.idx < len(rows.rs.Result) {
+	if rows.idx < len(rows.rs) {
 		return true
 	}
 	return false
@@ -81,8 +82,8 @@ func (rows *Rows) Scan(dest ...interface{}) error {
 	lastcols := make([]string, 0)
 	lastColsType := make([]string, 0)
 	for _, v := range rows.cols {
-		lastcols = append(lastcols, rows.rs.Result[rows.idx].Row[v].Value)
-		lastColsType = append(lastColsType, rows.rs.Result[rows.idx].Row[v].ColumnValueType)
+		lastcols = append(lastcols, rows.rs[rows.idx].Row[v].Value)
+		lastColsType = append(lastColsType, rows.rs[rows.idx].Row[v].ColumnValueType)
 	}
 	if len(dest) != len(lastcols) {
 		return fmt.Errorf("sql: expected %d destination arguments in Scan, not %d", len(lastcols), len(dest))
