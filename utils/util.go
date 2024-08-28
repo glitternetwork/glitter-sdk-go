@@ -8,6 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethermint "github.com/evmos/ethermint/types"
 	curl "github.com/idoubi/goz"
+	jsoniter "github.com/json-iterator/go"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmcrypto "github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/types"
@@ -170,4 +171,11 @@ func FindAttributeByKey(event abci.Event, attrKey string) (abci.EventAttribute, 
 	}
 
 	return abci.EventAttribute{}, fmt.Errorf("no attribute with key %s found inside event with type %s", attrKey, event.Type)
+}
+
+var Json = jsoniter.ConfigCompatibleWithStandardLibrary
+
+func ConvToJSON(v interface{}) (str string) {
+	bytes, _ := Json.Marshal(v)
+	return string(bytes)
 }
