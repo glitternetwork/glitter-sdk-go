@@ -113,4 +113,8 @@ type Node interface {
 	QueryReleasingCPDTs(ctx context.Context, request *chaindepconsumertype.QueryReleasingCPDTsRequest) (*chaindepconsumertype.QueryReleasingCPDTsResponse, error)
 
 	Balance(ctx context.Context, request *types6.QueryBalanceRequest) (*types6.QueryBalanceResponse, error)
+
+	QueryIndexParams(ctx context.Context, req *chaindepindextype.QueryParamsRequest) (*chaindepindextype.QueryParamsResponse, error)
+
+	QueryConsumerParams(ctx context.Context, req *chaindepconsumertype.QueryParamsRequest) (*chaindepconsumertype.QueryParamsResponse, error)
 }

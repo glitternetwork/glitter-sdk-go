@@ -409,3 +409,13 @@ func (cp *Node) Balance(ctx context.Context, request *types6.QueryBalanceRequest
 	c := types6.NewQueryClient(cp.grpcConnection)
 	return c.Balance(ctx, request)
 }
+
+func (cp *Node) QueryIndexParams(ctx context.Context, request *chaindepindextype.QueryParamsRequest) (*chaindepindextype.QueryParamsResponse, error) {
+	c := chaindepindextype.NewQueryClient(cp.grpcConnection)
+	return c.Params(ctx, request)
+}
+
+func (cp *Node) QueryConsumerParams(ctx context.Context, request *chaindepconsumertype.QueryParamsRequest) (*chaindepconsumertype.QueryParamsResponse, error) {
+	c := chaindepconsumertype.NewQueryClient(cp.grpcConnection)
+	return c.Params(ctx, request)
+}
