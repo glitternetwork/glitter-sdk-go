@@ -8,7 +8,7 @@ require (
 	github.com/cosmos/ibc-go/v3 v3.3.1
 	github.com/ethereum/go-ethereum v1.10.19
 	github.com/evmos/ethermint v0.19.3
-	github.com/glitternetwork/chain-dep v0.0.3-0.20240808024159-38dc328d35b5
+	github.com/glitternetwork/chain-dep v0.0.3-0.20240831110832-fde5ad0ce9dd
 	github.com/idoubi/goz v1.4.5
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/json-iterator/go v1.1.12

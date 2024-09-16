@@ -30,6 +30,13 @@ func (lcd *LCDClient) RenewalDataset(ctx context.Context, datasetName string, du
 	return lcd.SignAndBroadcastTX(ctx, options)
 }
 
+func (lcd *LCDClient) EditTableRequest(ctx context.Context, datasetName string, table string, meta string, description string) (*sdk.TxResponse, error) {
+	_msg := chaindepindextype.NewEditTableRequest(lcd.GetAddress(), datasetName, table, meta, description)
+	options := CreateTxOptions{SignMode: tx.SignModeDirect}
+	options.Msgs = []msg.Msg{_msg}
+	return lcd.SignAndBroadcastTX(ctx, options)
+}
+
 func (lcd *LCDClient) Pledge(ctx context.Context, datasetName string, amount sdk.Int) (*sdk.TxResponse, error) {
 	_msg := chaindepconsumertype.NewPledgeRequest(lcd.GetAddress(), datasetName, amount)
 	options := CreateTxOptions{SignMode: tx.SignModeDirect}

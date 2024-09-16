@@ -200,8 +200,8 @@ github.com/fsnotify/fsnotify v1.5.4/go.mod h1:OVB6XrOHzAwXMpEM7uPOzcehqUV2UqJxmV
 github.com/gballet/go-libpcsclite v0.0.0-20190607065134-2772fd86a8ff h1:tY80oXqGNY4FhTFhk+o9oFHGINQ/+vhlm8HFzi6znCI=
 github.com/gballet/go-libpcsclite v0.0.0-20190607065134-2772fd86a8ff/go.mod h1:x7DCsMOv1taUwEWCzT4cmDeAkigA5/QCwUodaVOe8Ww=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
-github.com/glitternetwork/chain-dep v0.0.3-0.20240808024159-38dc328d35b5 h1:Mwq4vksCKzca0P8jh5r31oJswXjCvQjYobyvUbCYMEY=
-github.com/glitternetwork/chain-dep v0.0.3-0.20240808024159-38dc328d35b5/go.mod h1:K2lT1xOAeazS9IvMvDYy2WgvDFGSY2GIeV01Nh4LG3o=
+github.com/glitternetwork/chain-dep v0.0.3-0.20240831110832-fde5ad0ce9dd h1:1v2u7aNCfgBmNabdEIVW0sYkjLpNHPkZN7SffXGP5LE=
+github.com/glitternetwork/chain-dep v0.0.3-0.20240831110832-fde5ad0ce9dd/go.mod h1:K2lT1xOAeazS9IvMvDYy2WgvDFGSY2GIeV01Nh4LG3o=
 github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1/go.mod h1:vR7hzQXu2zJy9AVAgeJqvqgH9Q5CA+iKCZ2gyEVpxRU=
 github.com/go-gl/glfw/v3.3/glfw v0.0.0-20191125211704-12ad95a8df72/go.mod h1:tQ2UAYgL5IevRw8kRxooKSPJfGvJ9fJQFa0TUsXzTg8=
 github.com/go-gl/glfw/v3.3/glfw v0.0.0-20200222043503-6f7a984d4dc4/go.mod h1:tQ2UAYgL5IevRw8kRxooKSPJfGvJ9fJQFa0TUsXzTg8=
