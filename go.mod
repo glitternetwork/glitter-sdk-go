@@ -8,14 +8,14 @@ require (
 	github.com/cosmos/ibc-go/v3 v3.3.1
 	github.com/ethereum/go-ethereum v1.10.19
 	github.com/evmos/ethermint v0.19.3
-	github.com/glitternetwork/chain-dep v0.0.3-0.20240831110832-fde5ad0ce9dd
+	github.com/glitternetwork/chain-dep v0.0.3-0.20240922085656-4f8ad88a7a0a
 	github.com/idoubi/goz v1.4.5
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/json-iterator/go v1.1.12
 	github.com/stretchr/testify v1.8.0
 	github.com/tendermint/tendermint v0.34.22
-	golang.org/x/net v0.0.0-20221004154528-8021a29435af
-	google.golang.org/grpc v1.50.0
+	golang.org/x/net v0.26.0
+	google.golang.org/grpc v1.64.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -28,7 +28,7 @@ require (
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
-	github.com/google/uuid v1.3.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/go-uuid v1.0.2 // indirect
 	github.com/holiman/bloomfilter/v2 v2.0.3 // indirect
 	github.com/holiman/uint256 v1.2.0 // indirect
@@ -42,8 +42,7 @@ require (
 	github.com/rjeczalik/notify v0.9.1 // indirect
 	github.com/shirou/gopsutil v3.21.4-0.20210419000835-c7a38de76ee5+incompatible // indirect
 	github.com/status-im/keycard-go v0.0.0-20200402102358-957c09536969 // indirect
-	golang.org/x/sync v0.0.0-20220819030929-7fc1605a5dde // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
+	golang.org/x/sync v0.8.0 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 )
 
@@ -61,7 +60,7 @@ require (
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1 // indirect
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
-	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/confio/ics23/go v0.7.0 // indirect
 	github.com/cosmos/btcutil v1.0.4 // indirect
 	github.com/cosmos/gorocksdb v1.2.0 // indirect
@@ -82,8 +81,8 @@ require (
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/godbus/dbus v0.0.0-20190726142602-4481cbc300e2 // indirect
 	github.com/gogo/protobuf v1.3.3 // indirect
-	github.com/golang/glog v1.0.0 // indirect
-	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/golang/glog v1.2.0 // indirect
+	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/btree v1.0.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
@@ -145,13 +144,13 @@ require (
 	github.com/zondax/hid v0.9.0 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
-	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
+	golang.org/x/crypto v0.24.0 // indirect
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
-	golang.org/x/sys v0.0.0-20220818161305-2296e01440c6 // indirect
-	golang.org/x/term v0.0.0-20220722155259-a9ba230a4035 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/term v0.21.0 // indirect
+	golang.org/x/text v0.17.0 // indirect
 	google.golang.org/genproto v0.0.0-20220810155839-1856144b1d9c // indirect
-	google.golang.org/protobuf v1.28.1 // indirect
+	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

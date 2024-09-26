@@ -10,14 +10,14 @@ import (
 )
 
 func (lcd *LCDClient) CreateDataset(ctx context.Context, datasetName string, workStatus chaindepindextype.ServiceStatus, hosts string, manageAddresses string, meta string, description string, duration int64) (*sdk.TxResponse, error) {
-	_msg := chaindepindextype.NewCreateDatasetRequest(lcd.GetAddress(), datasetName, workStatus, hosts, manageAddresses, meta, description, duration)
+	_msg := chaindepindextype.NewCreateDatasetRequest(lcd.GetAddress(), datasetName, workStatus, hosts, manageAddresses, description, duration)
 	options := CreateTxOptions{SignMode: tx.SignModeDirect}
 	options.Msgs = []msg.Msg{_msg}
 	return lcd.SignAndBroadcastTX(ctx, options)
 }
 
-func (lcd *LCDClient) EditDatasetRequest(ctx context.Context, datasetName string, workStatus chaindepindextype.ServiceStatus, hosts string, manageAddresses string, meta string, description string) (*sdk.TxResponse, error) {
-	_msg := chaindepindextype.NewEditDatasetRequest(lcd.GetAddress(), datasetName, workStatus, hosts, manageAddresses, meta, description)
+func (lcd *LCDClient) EditDataset(ctx context.Context, datasetName string, workStatus chaindepindextype.ServiceStatus, hosts string, manageAddresses string, meta string, description string) (*sdk.TxResponse, error) {
+	_msg := chaindepindextype.NewEditDatasetRequest(lcd.GetAddress(), datasetName, workStatus, hosts, manageAddresses, description)
 	options := CreateTxOptions{SignMode: tx.SignModeDirect}
 	options.Msgs = []msg.Msg{_msg}
 	return lcd.SignAndBroadcastTX(ctx, options)
@@ -30,8 +30,8 @@ func (lcd *LCDClient) RenewalDataset(ctx context.Context, datasetName string, du
 	return lcd.SignAndBroadcastTX(ctx, options)
 }
 
-func (lcd *LCDClient) EditTableRequest(ctx context.Context, datasetName string, table string, meta string, description string) (*sdk.TxResponse, error) {
-	_msg := chaindepindextype.NewEditTableRequest(lcd.GetAddress(), datasetName, table, meta, description)
+func (lcd *LCDClient) EditTable(ctx context.Context, datasetName string, table string, description string) (*sdk.TxResponse, error) {
+	_msg := chaindepindextype.NewEditTableRequest(lcd.GetAddress(), datasetName, table, description)
 	options := CreateTxOptions{SignMode: tx.SignModeDirect}
 	options.Msgs = []msg.Msg{_msg}
 	return lcd.SignAndBroadcastTX(ctx, options)
