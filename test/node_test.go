@@ -2,7 +2,7 @@ package test
 
 import (
 	"context"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"fmt"
 	chaindepindextype "github.com/glitternetwork/chain-dep/glitter_proto/glitterchain/index/types"
 	"github.com/glitternetwork/glitter-sdk-go/client"
 	nodeconfig "github.com/glitternetwork/glitter-sdk-go/client/node/config"
@@ -10,6 +10,11 @@ import (
 	"github.com/tendermint/tendermint/libs/json"
 	"testing"
 )
+
+type Desc struct {
+	Description string `db:"description" json:"description" gorm:"description"`
+	Github      string `db:"github" json:"github" gorm:"github"`
+}
 
 func Test_QueryDatesets(t *testing.T) {
 	cfg := nodeconfig.Config{
@@ -25,7 +30,7 @@ func Test_QueryDatesets(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	resp, err := node.QueryDatesets(ctx, &chaindepindextype.QueryDatesetsRequest{Pagination: &query.PageRequest{Limit: 1000}})
+	resp, err := node.QueryDateset(ctx, &chaindepindextype.QueryDatesetRequest{DatasetName: "library"})
 	if err != nil {
 		t.Log(err)
 		return
@@ -33,8 +38,11 @@ func Test_QueryDatesets(t *testing.T) {
 
 	t.Log(resp)
 
-	datasets := resp.Datasets
-	b, e := json.Marshal(datasets)
-	t.Log(e)
-	t.Log(string(b))
+	dataset := resp.Dateset
+
+	desc := Desc{}
+	err = json.Unmarshal([]byte(dataset.Description), &desc)
+	fmt.Println(err)
+	fmt.Println(desc)
+
 }
