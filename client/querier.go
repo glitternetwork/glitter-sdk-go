@@ -127,32 +127,24 @@ type Argument struct {
 	Value string `json:"value"`
 }
 
-func (lcd *LCDClient) QuerySql(ctx context.Context, datasetName string, sql string, argument *[]Argument) (resp string, err error) {
+func (lcd *LCDClient) QuerySql(ctx context.Context, datasetName string, sql string, argument []Argument) (resp string, err error) {
 	var engineHost = ""
 	var engineParam = make(map[string]interface{})
-	url := lcd.URL + "/glitterchain/index/datasets?pagination.offset=0&pagination.limit=1000"
+	url := lcd.URL + "/glitterchain/index/dataset/" + datasetName
 	data, err := utils.CurlGet(url)
 	if err != nil {
 		return "", err
 	}
 	c := core.MakeEncodingConfig(core.ModuleBasics)
-	r := &chaindepindextype.QueryDatesetsResponse{}
+	r := &chaindepindextype.QueryDatesetResponse{}
 	err = c.Marshaler.UnmarshalJSON([]byte(data), r)
 	if err != nil {
 		return "", err
 	}
-
-	host := ""
-	for _, v := range r.Datasets {
-		if v.Hosts == datasetName {
-			host = v.Hosts
-		}
-	}
-
-	if host == "" {
+	if r.Dateset.Hosts == "" {
 		return "", errors.New("obsent host")
 	}
-
+	host := r.Dateset.Hosts
 	engineHost = host + "/api/v1/simple_sql_query"
 	engineParam["sql"] = sql
 	engineParam["arguments"] = argument
