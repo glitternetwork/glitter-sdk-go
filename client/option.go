@@ -6,7 +6,7 @@ import (
 	"github.com/glitternetwork/glitter-sdk-go/msg"
 )
 
-const DefaultChainEndpoint = "https://api.xian.glitter.link"
+const DefaultChainEndpoint = "https://orlando-api.glitterprotocol.tech"
 
 type Option interface {
 	apply(o *clientOptions)

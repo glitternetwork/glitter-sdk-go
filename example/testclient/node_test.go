@@ -1,4 +1,4 @@
-package test
+package testclient
 
 import (
 	"context"

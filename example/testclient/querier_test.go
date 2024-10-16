@@ -1,19 +1,17 @@
-package client
+package testclient
 
 import (
 	"context"
+	"github.com/glitternetwork/glitter-sdk-go/client"
 	"testing"
 )
 
-func Test_QuerySql(t *testing.T) {
-	cli := LCDClient{
-		URL: "https://orlando-api.glitterprotocol.tech",
-	}
-
+func Test_Query(t *testing.T) {
+	cli := New()
 	ctx := context.Background()
 	datasetName := "vec"
 	sql := "SELECT md5,title,VECTOR_L2_DISTANCE(vector,TEXT_TO_VEC(?)) AS distance FROM vec.ebook ORDER BY distance LIMIT 100"
-	arg := []Argument{
+	arg := []client.Argument{
 		{
 			Type:  "STRING",
 			Value: "mathematischer vorkus",
